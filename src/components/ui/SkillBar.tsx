@@ -1,37 +1,26 @@
-import React from 'react';
-
-const SkillBar = ({ skill, level }) => {
-    return (
-        <div style={{ margin: '10px 0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                <span>{skill}</span>
-                <span>{level}%</span>
-            </div>
-            <div style={{ background: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
-                <div
-                    style={{
-                        height: '20px',
-                        width: `${level}%`,
-                        background: '#3b5998',
-                        animation: 'progress-animation 1s ease-in-out',
-                    }}
-                />
-            </div>
-        </div>
-    );
-};
-
-export default SkillBar;
-
-// Adding some keyframes for the animation
-const style = `
-@keyframes progress-animation {
-    from { width: 0; }
-    to { width: 100%; }
+interface SkillBarProps {
+  label: string;
+  percentage: number;
 }
-`;
 
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = style;
-document.head.appendChild(styleSheet);
+export default function SkillBar({ label, percentage }: SkillBarProps) {
+  return (
+    <div className="gsap-skill-item">
+      <div className="flex justify-between items-end mb-4">
+        <h4 className="font-headline font-bold text-2xl uppercase tracking-tighter">
+          {label}
+        </h4>
+        <span className="font-body font-bold text-primary-fixed">
+          {percentage}%
+        </span>
+      </div>
+      <div className="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+        <div
+          className="gsap-skill-bar h-full bg-inverse-surface rounded-full"
+          style={{ width: 0 }}
+          data-width={`${percentage}%`}
+        />
+      </div>
+    </div>
+  );
+}
