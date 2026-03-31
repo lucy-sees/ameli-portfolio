@@ -54,9 +54,9 @@ module.exports = {
         "outline-variant": "#1f1f1f",
       },
       fontFamily: {
-        headline: ["Space Grotesk", "sans-serif"],
-        body:     ["Manrope", "sans-serif"],
-        label:    ["Manrope", "sans-serif"],
+        headline: ["var(--font-space-grotesk)", "Space Grotesk", "sans-serif"],
+        body:     ["var(--font-manrope)", "Manrope", "sans-serif"],
+        label:    ["var(--font-manrope)", "Manrope", "sans-serif"],
         mono:     ["JetBrains Mono", "Menlo", "monospace"],
       },
       borderRadius: {
