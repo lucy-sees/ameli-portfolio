@@ -3,44 +3,44 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/data";
+import { useAgent } from "@/context/AgentContext";
 
 export default function Navbar() {
+  const { state, dispatch } = useAgent();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`sticky top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#f9f6f5]/90 shadow-sm backdrop-blur-lg"
-          : "bg-[#f9f6f5]/80 backdrop-blur-lg"
+      className={`sticky top-0 w-full z-50 transition-all duration-500 ${
+        scrolled ? "bg-void/95 backdrop-blur-xl border-b border-white/5" : "bg-transparent"
       }`}
     >
-      <div className="flex justify-between items-center w-full px-8 py-6 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center w-full px-8 py-5 max-w-7xl mx-auto">
         {/* Logo */}
         <Link
           href="#"
-          className="text-2xl font-black tracking-tighter text-[#0e0e0e] font-headline uppercase"
+          className="text-2xl font-black tracking-tighter text-surface font-headline uppercase hover:text-primary-fixed transition-colors"
         >
           DESIGNER.UX
         </Link>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center space-x-10 font-headline font-bold tracking-tighter uppercase">
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center space-x-10 font-headline font-bold tracking-tighter uppercase text-sm">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={
                 link.active
-                  ? "text-[#feb300] border-b-2 border-[#feb300] pb-1"
-                  : "text-[#0e0e0e] hover:text-[#feb300] transition-colors duration-300"
+                  ? "text-primary-fixed border-b-2 border-primary-fixed pb-1"
+                  : "text-surface/60 hover:text-surface transition-colors duration-300"
               }
             >
               {link.label}
@@ -48,14 +48,24 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA Button */}
-        <button className="hidden md:block bg-inverse-surface text-surface px-6 py-2 rounded-md font-bold uppercase tracking-tight hover:opacity-75 transition-opacity active:scale-95">
-          Hire Me
-        </button>
+        <div className="hidden md:flex items-center gap-3">
+          {/* Agent trigger pill */}
+          <button
+            onClick={() => dispatch({ type: "TOGGLE_COMMAND_CENTER" })}
+            className="flex items-center gap-2 px-4 py-2 rounded-full glass text-surface/60 hover:text-agent-green hover:border-agent-green/30 transition-all text-xs font-mono uppercase tracking-widest"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${state.isStreaming ? "bg-agent-green animate-ping" : "bg-agent-green/40"}`} />
+            ⌘K
+          </button>
 
-        {/* Mobile Menu Toggle */}
+          <button className="bg-primary-fixed text-on-primary-fixed px-6 py-2 rounded-md font-bold uppercase tracking-tight hover:opacity-80 transition-opacity active:scale-95 text-sm">
+            Hire Me
+          </button>
+        </div>
+
+        {/* Mobile toggle */}
         <button
-          className="md:hidden text-on-surface"
+          className="md:hidden text-surface"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -65,24 +75,33 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#f9f6f5] border-t border-surface-container px-8 py-6 space-y-4">
+        <div className="md:hidden bg-void/98 backdrop-blur-xl border-t border-white/5 px-8 py-6 space-y-4">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className={`block font-headline font-bold uppercase tracking-tighter text-lg ${
-                link.active ? "text-[#feb300]" : "text-on-surface"
+                link.active ? "text-primary-fixed" : "text-surface/60"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <button className="mt-4 bg-inverse-surface text-surface px-6 py-2 rounded-md font-bold uppercase tracking-tight w-full">
-            Hire Me
-          </button>
+          <div className="pt-4 flex flex-col gap-3">
+            <button
+              onClick={() => { setMenuOpen(false); dispatch({ type: "TOGGLE_COMMAND_CENTER" }); }}
+              className="flex items-center justify-center gap-2 py-3 rounded-lg glass text-surface/60 font-mono text-sm uppercase tracking-widest"
+            >
+              <span className="material-symbols-outlined text-lg">auto_awesome</span>
+              Ask AI
+            </button>
+            <button className="bg-primary-fixed text-on-primary-fixed py-3 rounded-md font-bold uppercase tracking-tight">
+              Hire Me
+            </button>
+          </div>
         </div>
       )}
     </nav>

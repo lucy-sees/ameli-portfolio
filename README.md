@@ -1,95 +1,108 @@
-# Ameli Nimbus Portfolio — Next.js
+# Ameli Nimbus Portfolio — Agentic Interface v2
 
-A modular, production-ready portfolio site built with **Next.js 14**, **Tailwind CSS**, and **GSAP** animations.
+A 2026-level **AI-orchestrated portfolio** built with **Next.js 14**, **Tailwind CSS**, **GSAP Flip**, **React Three Fiber**, and the **Google Gemini API**.
 
-## Demo
-
-- Live site: https://ui-ux-designer-portfolio-01.netlify.app/
-
-## Features
-
-- Responsive portfolio layout with modern UX/UI design.
-- Animated scroll and entrance effects using **GSAP + ScrollTrigger**.
-- Organized sections for hero, services, about, stats, skills, projects, and contact.
-- Easy content editing through a single data source.
-- Built with **Next.js App Router** and **TypeScript**.
+---
 
 ## Stack
 
-- **Next.js 14** (App Router, TypeScript)
-- **Tailwind CSS** — custom design token system (amber/gold palette)
-- **GSAP + ScrollTrigger** — scroll-driven and entrance animations
-- **Google Fonts** — Space Grotesk + Manrope
-- **Material Symbols** — icon font
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router, TypeScript) |
+| Styling | Tailwind CSS — dark void palette + glassmorphism |
+| AI | Google Gemini 1.5 Flash — streaming intent engine |
+| Animation | GSAP 3 + ScrollTrigger + Flip |
+| 3D | React Three Fiber + Drei + MeshDistortMaterial |
+| Voice | Web Speech API (SpeechRecognition) |
 
-## Getting Started
+---
 
-Install dependencies and start the development server:
-
-```bash
-pnpm install
-pnpm dev
-```
-
-If you prefer npm:
+## Setup
 
 ```bash
+# 1. Install dependencies
 npm install
+
+# 2. Add your Gemini API key
+cp .env.local.example .env.local
+# Edit .env.local and set GEMINI_API_KEY
+
+# 3. Run dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000)
 
-## Start the Project
+---
 
-1. Clone the repository.
-2. Install dependencies with `pnpm install` (or `npm install`).
-3. Run `pnpm dev` (or `npm run dev`).
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Agentic Features
 
-## Available Scripts
+### CommandCenter (⌘K)
+- Glass UI panel with animated gradient border
+- Real-time Gemini streaming response
+- Voice input (Web Speech API)
+- Context-aware greeting based on referral source
 
-- `pnpm dev` / `npm run dev` - Start the development server.
-- `pnpm build` / `npm run build` - Build the production app.
-- `pnpm start` / `npm run start` - Start the production server after building.
-- `pnpm lint` / `npm run lint` - Run ESLint.
+### Intent Engine (`/api/agent`)
+Interprets natural language into structured actions:
+- `navigate_projects` → scroll to projects
+- `navigate_awards` → scroll to awards
+- `highlight_featured` → GSAP Flip reorders grid
+- `activate_recruiter_mode` → restructures layout for recruiters
+- `activate_creative_mode` → expressive tone
+- `show_experience` → scroll to experience
 
-## Social
+### Context Detection
+Automatically detects:
+- `?ref=linkedin` → activates Recruiter Mode
+- Time of day → adjusts greeting
+- Session depth → tracks interaction history
 
-- GitHub: https://github.com/lucy-sees
-- LinkedIn: https://www.linkedin.com/in/lucy-wanjiru-mwangi/
-- Twitter: https://twitter.com/lucy_w_mwangi/
+### GSAP Flip Grid
+Projects grid reorganizes itself based on AI intent using `Flip.from()` — GPU-accelerated, no layout thrashing.
 
-## Contribution
+### R3F Hero Blob
+- Reacts to mouse velocity
+- Reacts to scroll speed
+- `MeshDistortMaterial` with dynamic distortion
 
-Contributions are welcome! To contribute:
+### Voice Commands
+Say any of these:
+- *"show awards"*
+- *"activate recruiter mode"*
+- *"highlight UX work"*
+- *"show projects"*
+- *"show experience"*
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature`.
-3. Make your changes and commit them.
-4. Push to your fork and open a pull request.
+---
 
-Feel free to open issues for bugs, enhancements, or questions.
-
-## Acknowledgements
-
-- Built with **Next.js 14**.
-- Styling powered by **Tailwind CSS**.
-- Animations powered by **GSAP** and **ScrollTrigger**.
-- Icons from **Material Symbols**.
-- Fonts provided by **Google Fonts**.
-
-## Project Structure
+## File Structure
 
 ```
 src/
 ├── app/
-│   ├── layout.tsx        # Root layout (fonts, metadata)
-│   ├── page.tsx          # Page composition
-│   └── globals.css       # Tailwind + base styles
+│   ├── api/agent/route.ts      ← Gemini streaming edge route
+│   ├── layout.tsx              ← AgentProvider + overlays
+│   ├── page.tsx                ← Page with recruiter-mode detection
+│   └── globals.css             ← Dark void theme + grain + glass
+├── context/
+│   └── AgentContext.tsx        ← State machine (intent, tone, session, recruiter)
+├── lib/
+│   ├── geminiClient.ts         ← Gemini SDK singleton
+│   ├── intentParser.ts         ← Intent types + prompt builder
+│   └── contextDetector.ts      ← Referral / visitor / time detection
+├── hooks/
+│   ├── useGSAPAnimation.ts     ← Generic GSAP + ScrollTrigger hook
+│   └── useStreamingResponse.ts ← Abort-safe streaming fetch
 ├── components/
+│   ├── agent/
+│   │   ├── CommandCenter.tsx   ← Main glass AI panel
+│   │   ├── CommandTrigger.tsx  ← Floating orb trigger
+│   │   └── useVoiceAgent.ts    ← Web Speech hook
+│   ├── 3d/
+│   │   └── HeroBlob.tsx        ← R3F blob scene
 │   ├── layout/
-│   │   ├── Navbar.tsx    # Sticky nav + mobile menu
+│   │   ├── Navbar.tsx
 │   │   └── Footer.tsx
 │   ├── sections/
 │   │   ├── HeroSection.tsx
@@ -100,19 +113,30 @@ src/
 │   │   ├── ProjectsSection.tsx
 │   │   └── ContactSection.tsx
 │   └── ui/
+│       ├── AgentGrid.tsx       ← GSAP Flip grid
 │       ├── ServiceCard.tsx
 │       ├── SkillBar.tsx
 │       └── ProjectCard.tsx
-├── hooks/
-│   └── useGSAPAnimation.ts
 └── lib/
-    └── data.ts           # All site content / constants
+    └── data.ts
 ```
 
-## Customisation
+---
 
-All content (nav links, services, stats, skills, projects, contact info) lives in `src/lib/data.ts`. Edit that file to update the site without touching components.
+## Recruiter Mode
 
-## Deployment
+Visit `/?ref=linkedin` to auto-activate Recruiter Mode:
+- Green scan-line appears at top of page
+- Layout reorders to surface most relevant work
+- Tone shifts to structured/professional
+- Featured projects get priority badge
 
-This project can be deployed to **Netlify**, **Vercel**, or any platform that supports Next.js. The live demo is already hosted on Netlify.
+---
+
+## Environment Variables
+
+```env
+GEMINI_API_KEY=your_key_here
+```
+
+Get a free key at [aistudio.google.com](https://aistudio.google.com/app/apikey)

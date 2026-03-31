@@ -6,16 +6,14 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ icon, title, description }: ServiceCardProps) {
   return (
-    <div className="gsap-service-card bg-surface p-12 rounded-xl group hover:bg-inverse-surface transition-colors duration-500 cursor-pointer">
-      <span className="material-symbols-outlined text-5xl text-primary-fixed mb-8 block">
-        {icon}
-      </span>
-      <h3 className="font-headline font-bold text-3xl mb-4 group-hover:text-surface transition-colors duration-500">
+    <div className="service-card glass p-10 rounded-2xl group hover:border-primary-fixed/40 hover:shadow-gold transition-all duration-500 cursor-pointer">
+      <div className="w-12 h-12 rounded-xl bg-primary-fixed/10 flex items-center justify-center mb-8 group-hover:bg-primary-fixed/20 transition-colors">
+        <span className="material-symbols-outlined text-primary-fixed text-2xl">{icon}</span>
+      </div>
+      <h3 className="font-headline font-bold text-2xl mb-4 text-surface group-hover:text-primary-fixed transition-colors">
         {title}
       </h3>
-      <p className="font-body text-secondary group-hover:text-surface-variant leading-relaxed transition-colors duration-500">
-        {description}
-      </p>
+      <p className="font-body text-surface/50 leading-relaxed text-sm">{description}</p>
     </div>
   );
 }

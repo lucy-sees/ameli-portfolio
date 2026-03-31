@@ -1,14 +1,13 @@
-'use strict';
-
-module.exports = {
-  reactStrictMode: true,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
       },
     ],
   },
-  // Add any additional configurations here
 };
+
+module.exports = nextConfig;

@@ -15,7 +15,7 @@ export function useGSAPAnimation(
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    let ctx: { revert: () => void } | null = null;
+    let ctx: import("gsap").Context | null = null;
 
     const init = async () => {
       const { gsap } = await import("gsap");

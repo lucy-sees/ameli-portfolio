@@ -1,6 +1,6 @@
 {
   "name": "ameli-portfolio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,21 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "gsap": "^3.12.5",
     "next": "14.2.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "gsap": "^3.12.5",
+    "@google/generative-ai": "^0.21.0",
+    "@react-three/fiber": "^8.17.10",
+    "@react-three/drei": "^9.109.2",
+    "three": "^0.167.1",
+    "leva": "^0.9.35"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/three": "^0.167.0",
     "autoprefixer": "^10.0.1",
-    "cssnano": "^7.1.3",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.0"
   }
 }
